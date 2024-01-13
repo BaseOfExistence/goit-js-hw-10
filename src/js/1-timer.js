@@ -1,11 +1,15 @@
 import flatpickr from "flatpickr";
+import iziToast from "izitoast";
+import 'izitoast/dist/css/izitoast.min.css';
+
 const btn = document.querySelector("[data-start]");
 const daysUI = document.querySelector("[data-days]");
 const hoursUI = document.querySelector("[data-hours]");
-const minutesUI = document.querySelector("[data-days]");
-const secondsUI = document.querySelector("[data-days]");
+const minutesUI = document.querySelector("[data-minutes]");
+const secondsUI = document.querySelector("[data-seconds]");
 let userSelectedDate = new Date(0);
 let time = 0;
+let intervalID;
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -13,11 +17,19 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     userSelectedDate = selectedDates[0];
-    const date = new Date;
+    const date = new Date();
     if (date.getTime() > userSelectedDate.getTime()) {
+      clearInterval(intervalID);
+      resetTimer();
       btn.setAttribute("disabled", "");
-      alert("Please choose a date in the future");
+      iziToast.error({
+        title: 'Caution',
+        message: 'You forgot important data',
+        position: 'topRight',
+      });
     } else {
+      clearInterval(intervalID);
+      resetTimer();
       btn.removeAttribute("disabled");
       time = userSelectedDate.getTime() - date.getTime();
     }
@@ -38,10 +50,19 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
-btn.addEventListener("click", () => {
+const addLeadingZero = (value) => value.toString().padStart(2, "0");
+const setTimer = () => {
   const { days, hours, minutes, seconds } = convertMs(time);
-  daysUI.textContent = days;
-  hoursUI.textContent = hours;
-  minutesUI.textContent = minutes;
-  secondsUI.textContent = seconds;
+  daysUI.textContent = addLeadingZero(days);
+  hoursUI.textContent = addLeadingZero(hours);
+  minutesUI.textContent = addLeadingZero(minutes);
+  secondsUI.textContent = addLeadingZero(seconds);
+  time -= 1000;
+}
+const resetTimer = () => {
+  time = 0;
+  setTimer();
+}
+btn.addEventListener("click", () => {
+  intervalID = setInterval(setTimer, 1000)
 })

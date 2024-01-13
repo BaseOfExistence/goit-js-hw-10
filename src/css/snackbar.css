@@ -1,0 +1,51 @@
+.form{
+    font-family: 'Montserrat', sans-serif;
+    color: #2E2F42;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.64px;
+    margin: 36px 156px;
+}
+.text{
+    margin: 0 0 8px 0;
+}
+input[name="delay"]{
+    width: 340px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    border: 1px solid #808080;
+    margin-bottom: 16px;
+    padding-left: 16px;
+}
+fieldset{
+    width: 334px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    border: 1px solid #808080;
+    padding: 18px 0 0 24px;
+    margin: 0 0 24px 0;
+}
+button{
+    display: flex;
+    width: 360px;
+    padding: 8px 16px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 8px;
+    background: #4E75FF;
+    font-family: 'Montserrat', sans-serif;
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.64px;
+}
+button:hover {
+    background: #6C8CFF;
+}
