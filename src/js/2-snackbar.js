@@ -1,5 +1,5 @@
 import iziToast from "izitoast";
-import "izitoast/dist/css/izitoast.min.css";
+import "izitoast/dist/css/iziToast.min.css";
 const form = document.querySelector(".form")
 const fulfilled = document.querySelector('input[value="fulfilled"]')
 const delay = document.querySelector('input[name="delay"]')
