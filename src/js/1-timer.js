@@ -19,16 +19,14 @@ const options = {
     userSelectedDate = selectedDates[0];
     const date = new Date();
     if (date.getTime() > userSelectedDate.getTime()) {
-      clearInterval(intervalID);
       resetTimer();
       btn.setAttribute("disabled", "");
       iziToast.error({
-        title: 'Caution',
-        message: 'You forgot important data',
+        title: 'Error',
+        message: 'Please choose a date in the future',
         position: 'topRight',
       });
     } else {
-      clearInterval(intervalID);
       resetTimer();
       btn.removeAttribute("disabled");
       time = userSelectedDate.getTime() - date.getTime();
@@ -58,8 +56,12 @@ const setTimer = () => {
   minutesUI.textContent = addLeadingZero(minutes);
   secondsUI.textContent = addLeadingZero(seconds);
   time -= 1000;
+  if (time <= 0) {
+    clearInterval(intervalID);
+  }
 }
 const resetTimer = () => {
+  clearInterval(intervalID);
   time = 0;
   setTimer();
 }

@@ -2,20 +2,21 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 const form = document.querySelector(".form")
 const fulfilled = document.querySelector('input[value="fulfilled"]')
+const rejected = document.querySelector('input[value="rejected"]')
 const delay = document.querySelector('input[name="delay"]')
 form.addEventListener("submit", (event) => {
     event.preventDefault();
-    const currentFulfilled = fulfilled.checked;
     const currentDelay = delay.value.trim();
-    if (currentDelay && currentDelay !== "") {
+    if (currentDelay) {
         const promise = new Promise((resolve, reject) => {
             setTimeout(() => {
-                if (currentFulfilled) {
+                if (fulfilled.checked) {
                     resolve(`✅ Fulfilled promise in ${currentDelay}ms`)
-                } else {
+                }
+                if(rejected.checked){
                     reject(`❌ Rejected promise in ${currentDelay}ms`)
                 }
-            }, parseInt(currentDelay))
+            }, currentDelay)
         })
         promise.then(resolve => {
             iziToast.success({
