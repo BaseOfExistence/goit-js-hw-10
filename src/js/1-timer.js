@@ -2,7 +2,7 @@ import flatpickr from "flatpickr";
 import iziToast from "izitoast";
 import 'izitoast/dist/css/iziToast.min.css';
 
-const btn = document.querySelector("[data-start]");
+const startButton = document.querySelector("[data-start]");
 const daysUI = document.querySelector("[data-days]");
 const hoursUI = document.querySelector("[data-hours]");
 const minutesUI = document.querySelector("[data-minutes]");
@@ -20,7 +20,7 @@ const options = {
     const date = new Date();
     if (date.getTime() > userSelectedDate.getTime()) {
       resetTimer();
-      btn.setAttribute("disabled", "");
+      startButton.setAttribute("disabled", "");
       iziToast.error({
         title: 'Error',
         message: 'Please choose a date in the future',
@@ -28,12 +28,12 @@ const options = {
       });
     } else {
       resetTimer();
-      btn.removeAttribute("disabled");
+      startButton.removeAttribute("disabled");
       time = userSelectedDate.getTime() - date.getTime();
     }
   },
 };
-btn.setAttribute("disabled", "");
+startButton.setAttribute("disabled", "");
 flatpickr("#datetime-picker", options);
 function convertMs(ms) {
   const second = 1000;
@@ -57,14 +57,19 @@ const setTimer = () => {
   secondsUI.textContent = addLeadingZero(seconds);
   time -= 1000;
   if (time <= 0) {
-    clearInterval(intervalID);
+    resetTimer();
   }
 }
 const resetTimer = () => {
   clearInterval(intervalID);
   time = 0;
-  setTimer();
+  const { days, hours, minutes, seconds } = convertMs(time);
+  daysUI.textContent = addLeadingZero(days);
+  hoursUI.textContent = addLeadingZero(hours);
+  minutesUI.textContent = addLeadingZero(minutes);
+  secondsUI.textContent = addLeadingZero(seconds);
 }
-btn.addEventListener("click", () => {
+startButton.addEventListener("click", () => {
   intervalID = setInterval(setTimer, 1000)
+  startButton.setAttribute("disabled", "");
 })
