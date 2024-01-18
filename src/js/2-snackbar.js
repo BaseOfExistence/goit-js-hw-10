@@ -10,11 +10,16 @@ form.addEventListener("submit", (event) => {
     if (currentDelay) {
         const promise = new Promise((resolve, reject) => {
             setTimeout(() => {
-                if (fulfilled.checked) {
-                    resolve(currentDelay)
-                }
-                if (rejected.checked) {
-                    reject(currentDelay)
+                if (fulfilled.checked && !rejected.checked) {
+                    resolve(currentDelay);
+                } else if (!fulfilled.checked && rejected.checked) {
+                    reject(currentDelay);
+                } else {
+                    iziToast.error({
+                        title: 'Error',
+                        message: `❌ Please select either Fulfilled or Rejected`,
+                        position: 'topRight',
+                    });
                 }
             }, Number(currentDelay))
         })
